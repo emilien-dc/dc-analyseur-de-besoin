@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DC — Analyseur de besoin (IA)</title>
+
+  <!-- Tailwind (Option A) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- JS app -->
+  <script src="js/app.js" defer></script>
+</head>
+
+<body class="bg-gradient-to-br from-slate-50 via-white to-sky-50 min-h-screen text-gray-900">
+
+  <!-- Header -->
+  <header class="border-b bg-white/70 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-6 py-6 flex items-start justify-between gap-6">
+      <div>
+        <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600">
+          <span class="font-semibold text-slate-800">Démo pro</span>
+          <span>Token sécurisé côté serveur (Netlify Function)</span>
+        </div>
+        <h1 class="mt-3 text-2xl md:text-3xl font-bold tracking-tight">
+          Analyseur de besoin & pré-qualification (IA)
+        </h1>
+        <p class="mt-2 text-slate-600 max-w-2xl">
+          L’outil aide une PME (BTP / Industrie / Services) à <b>structurer une demande client</b>,
+          identifier les informations manquantes et proposer un <b>pré-chiffrage indicatif</b>.
+        </p>
+      </div>
+
+      <div class="hidden md:flex flex-col items-end text-sm text-slate-600">
+        <span class="font-medium text-slate-800">DC-AnalyseurDeBesoin</span>
+        <span>Front: HTML/CSS/JS</span>
+        <span>Proxy: /api/ai</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Col gauche : formulaire -->
+    <section class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+      <h2 class="text-lg font-semibold">Décrire la demande client</h2>
+      <p class="text-sm text-slate-600 mt-1">
+        Décris la demande telle qu’elle est reçue (mail, appel, formulaire). Plus c’est concret, mieux c’est.
+      </p>
+
+      <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Secteur</label>
+          <select id="sector" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-200">
+            <option value="BTP" selected>BTP</option>
+            <option value="Industrie">Industrie</option>
+            <option value="Services">Services</option>
+            <option value="Autre">Autre</option>
+          </select>
+          <p class="text-xs text-slate-500 mt-1">Permet d’adapter le prompt.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Type de demande</label>
+          <select id="requestType" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-200">
+            <option value="devis" selected>Devis</option>
+            <option value="dépannage">Dépannage</option>
+            <option value="installation">Installation</option>
+            <option value="maintenance">Maintenance</option>
+          </select>
+          <p class="text-xs text-slate-500 mt-1">Optionnel (mais utile).</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Urgence</label>
+          <select id="urgency" class="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-200">
+            <option value="faible">Faible</option>
+            <option value="moyenne" selected>Moyenne</option>
+            <option value="forte">Forte</option>
+          </select>
+          <p class="text-xs text-slate-500 mt-1">Aide à prioriser.</p>
+        </div>
+      </div>
+
+      <div class="mt-5">
+        <label for="needs" class="block text-sm font-medium text-slate-700">
+          Description (besoin client)
+        </label>
+        <textarea
+          id="needs"
+          rows="9"
+          class="mt-1 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-sky-200"
+          placeholder="Ex : Client particulier. Maison 120m². Souhaite refaire l’isolation des combles et remplacer 4 fenêtres. Ville : Clermont-Ferrand. Souhaite un devis rapide, budget serré, travaux avant l’hiver..."
+        ></textarea>
+
+        <div class="mt-3 flex flex-wrap gap-2">
+          <button
+            id="analyzeBtn"
+            class="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-300"
+          >
+            Analyser avec l’IA
+          </button>
+
+          <div id="loader" class="hidden inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-600">
+            <svg class="animate-spin h-4 w-4 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            Analyse en cours…
+          </div>
+
+          <button
+            id="fillExampleBtn"
+            type="button"
+            class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            Exemple
+          </button>
+
+          <button
+            id="clearBtn"
+            type="button"
+            class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            Effacer
+          </button>
+        </div>
+
+        <p class="mt-3 text-xs text-slate-500">
+          ⚠️ En production, le chiffrage reste indicatif et doit être validé par un professionnel.
+        </p>
+      </div>
+    </section>
+
+    <!-- Col droite : règles / aide -->
+    <aside class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+      <h3 class="text-sm font-semibold text-slate-800">Ce que l’IA va produire</h3>
+      <ul class="mt-3 space-y-2 text-sm text-slate-600 list-disc list-inside">
+        <li>Reformulation claire (client-friendly)</li>
+        <li>Questions manquantes à poser</li>
+        <li>Pré-chiffrage indicatif (fourchette + confiance)</li>
+        <li>Contraintes / risques</li>
+        <li>Prochaine étape recommandée</li>
+      </ul>
+
+      <div class="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4">
+        <p class="text-xs text-slate-600">
+          ✅ <b>Sécurité</b> : la clé HuggingFace n’est jamais dans le navigateur.
+          L’appel se fait via <code class="bg-white border border-slate-200 rounded px-1.5 py-0.5">/api/ai</code> (Netlify Function).
+        </p>
+      </div>
+
+      <div class="mt-5">
+        <h4 class="text-sm font-semibold text-slate-800">Conseils</h4>
+        <p class="mt-2 text-sm text-slate-600">
+          Mets des détails : surface, localisation, contraintes, délais, matériel, contexte…<br/>
+          Plus le besoin est précis, plus la réponse est utile.
+        </p>
+      </div>
+    </aside>
+
+    <!-- Résultat -->
+    <section id="resultZone" class="lg:col-span-3 hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+      <div class="flex items-center justify-between gap-4">
+        <h2 class="text-lg font-semibold">Résultat IA</h2>
+        <button
+          id="copyBtn"
+          type="button"
+          class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+        >
+          Copier
+        </button>
+      </div>
+
+      <div id="resultContent" class="mt-4 text-sm text-slate-800 leading-relaxed"></div>
+    </section>
+  </main>
+
+  <footer class="max-w-6xl mx-auto px-6 pb-10 text-xs text-slate-500">
+    Déployé sur Netlify • Front statique + proxy serverless • DC / Démo pédagogique & entreprise
+  </footer>
+
+  <!-- Petit script UI-only (sans IA) -->
+  <script>
+    // Remplir exemple / effacer / copier (UI uniquement)
+    const fillExampleBtn = document.getElementById('fillExampleBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const needs = document.getElementById('needs');
+    const resultContent = document.getElementById('resultContent');
+
+    fillExampleBtn?.addEventListener('click', () => {
+      document.getElementById('sector').value = 'BTP';
+      document.getElementById('requestType').value = 'devis';
+      document.getElementById('urgency').value = 'moyenne';
+
+      needs.value =
+`Client particulier. Maison ancienne ~120m².
+Souhaite : isolation des combles + remplacement de 4 fenêtres.
+Localisation : Clermont-Ferrand.
+Contraintes : travaux avant l’hiver, budget serré, souhaite comparer 2 solutions.
+Demande : pré-chiffrage et questions à poser avant devis.`;
+    });
+
+    clearBtn?.addEventListener('click', () => {
+      needs.value = '';
+    });
+
+    copyBtn?.addEventListener('click', async () => {
+      const text = resultContent?.innerText?.trim();
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        copyBtn.textContent = "Copié ✅";
+        setTimeout(() => copyBtn.textContent = "Copier", 1200);
+      } catch {
+        alert("Copie impossible (navigateur).");
+      }
+    });
+  </script>
+</body>
+</html>

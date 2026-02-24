@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Outil IA — Analyse de besoin</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="js/app.js" defer></script>
+</head>
+
+<body>
+  <header class="container">
+    <h1>Analyseur de besoin (IA)</h1>
+    <p class="subtitle">
+      Démo pro : l’IA structure un besoin client en éléments actionnables.
+      <br/>✅ Token sécurisé côté serveur (Netlify Function).
+    </p>
+    <nav class="nav">
+      <a href="index.html">Accueil</a>
+      <a class="active" href="app.html">Outil IA</a>
+    </nav>
+  </header>
+
+  <main class="container card">
+    <label for="inputNeed" class="label">Décrivez le besoin / demande client</label>
+    <textarea id="inputNeed" class="textarea" rows="8"
+      placeholder="Ex : Une PME souhaite digitaliser la gestion des devis et factures..."></textarea>
+
+    <div class="row">
+      <button id="btnAnalyse" class="btn">Analyser</button>
+      <button id="btnExample" class="btn btn-secondary">Exemple</button>
+    </div>
+
+    <div id="status" class="status hidden"></div>
+
+    <div id="loader" class="loader hidden">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="loader-text">Analyse en cours…</span>
+    </div>
+
+    <section class="result">
+      <h2>Résultat</h2>
+      <pre id="result" class="pre"></pre>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    Déployé avec Netlify • Fonction serveur : <code>/api/ai</code>
+  </footer>
+</body>
+</html>

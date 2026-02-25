@@ -31,7 +31,7 @@ export default async (req) => {
       });
     }
 
-    const model = process.env.HF_MODEL || "HuggingFaceTB/SmolLM3-3B:hf-inference";
+    const model = process.env.HF_MODEL || "mistralai/Mistral-7B-Instruct-v0.3:hf-inference";
     const url = "https://router.huggingface.co/v1/chat/completions";
 
     const hfRes = await fetch(url, {
@@ -44,7 +44,7 @@ export default async (req) => {
         model,
         messages: [{ role: "user", content: prompt }],
         temperature: 0.2,
-        max_tokens: 500,
+        max_tokens: 700,
       }),
     });
 

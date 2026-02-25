@@ -31,6 +31,7 @@ ${sectorGuidelines(sector)}
 RÈGLES :
 - Réponds en français, ton professionnel.
 - Pas de promesse excessive : indique clairement les incertitudes.
+- Ne montre pas ton raisonnement interne.
 - Donne une fourchette (€) et un niveau de confiance (Faible / Moyen / Élevé).
 - Si informations insuffisantes, propose une liste de questions.
 - Si possible, vise une estimation exploitable à ±10% (sinon explique pourquoi).

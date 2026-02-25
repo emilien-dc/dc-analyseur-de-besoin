@@ -1,9 +1,3 @@
-// netlify/functions/ai.js
-// Netlify Function proxy -> Hugging Face Router (OpenAI-compatible Chat Completions)
-// Env vars:
-// - HF_TOKEN (secret) : Hugging Face access token
-// - HF_MODEL (optional): e.g. "HuggingFaceTB/SmolLM3-3B:hf-inference"
-
 export default async (req) => {
   try {
     if (req.method !== "POST") {
@@ -31,8 +25,8 @@ export default async (req) => {
       });
     }
 
-    const model = process.env.HF_MODEL || "HuggingFaceH4/zephyr-7b-beta:hf-inference";
-    const url = "https://router.huggingface.co/v1/chat/completions";
+    const model = process.env.HF_MODEL || "mistralai/Mistral-7B-Instruct-v0.3";
+    const url = "https://router.huggingface.co/v1/completions";
 
     const hfRes = await fetch(url, {
       method: "POST",
@@ -42,9 +36,8 @@ export default async (req) => {
       },
       body: JSON.stringify({
         model,
-        messages: [{ role: "user", content: prompt }],
+        prompt: prompt,
         temperature: 0.1,
-        top_p: 0.9,
         max_tokens: 700,
       }),
     });
@@ -57,20 +50,10 @@ export default async (req) => {
         data?.error ||
         `Hugging Face error (${hfRes.status})`;
 
-      let friendly = rawMsg;
-
-      if (hfRes.status === 401 || hfRes.status === 403) {
-        friendly = "Accès refusé (token invalide ou permissions insuffisantes).";
-      } else if (hfRes.status === 429) {
-        friendly = "Quota atteint / trop de requêtes. Réessaie dans 1 minute.";
-      } else if (hfRes.status === 503) {
-        friendly = "Le modèle est en cours de démarrage ou surchargé. Réessaie dans 10–20 secondes.";
-      }
-
       return new Response(
         JSON.stringify({
-          error: friendly,
-          details: { status: hfRes.status, raw: rawMsg },
+          error: rawMsg,
+          details: { status: hfRes.status },
         }),
         {
           status: hfRes.status,
@@ -79,12 +62,8 @@ export default async (req) => {
       );
     }
 
-    let output =
-      data?.choices?.[0]?.message?.content ||
-      data?.choices?.[0]?.text ||
-      "";
+    let output = data?.choices?.[0]?.text || "";
 
-    // Remove <think>...</think> blocks if present
     output = String(output).replace(/<think>[\s\S]*?<\/think>\s*/g, "").trim();
 
     return new Response(JSON.stringify({ output }), {

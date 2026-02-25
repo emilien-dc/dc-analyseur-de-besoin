@@ -4,31 +4,43 @@ const resultZone = document.getElementById("resultZone");
 const resultContent = document.getElementById("resultContent");
 const textArea = document.getElementById("needs");
 
-// Valeurs dynamiques (toujours à jour)
 const getSector = () => document.getElementById("sector")?.value || "BTP";
 const getRequestType = () => document.getElementById("requestType")?.value || "devis";
 const getUrgency = () => document.getElementById("urgency")?.value || "moyenne";
 
+function sectorGuidelines(sector) {
+  if (sector === "BTP") {
+    return `Contexte BTP : raisonne en postes (déplacement, main d'œuvre, fournitures, location matériel, évacuation, marges, aléas chantier).
+Si la demande touche à isolation/menuiseries/chauffage, liste les infos techniques manquantes (surfaces, accès, état existant, contraintes, délais).`;
+  }
+  if (sector === "Industrie") {
+    return `Contexte industrie : prends en compte HSE/sécurité, arrêt de production, conformité, maintenance, pièces, accès site, horaires, consignations.
+Si intervention technique : demande relevés, plans, photos, contraintes HSE et fenêtres d'intervention.`;
+  }
+  return `Contexte services : précise le périmètre, le temps homme, l'urgence, les livrables, dépendances et risques de dérive.`;
+}
+
 function buildPrompt({ sector, requestType, urgency, need }) {
   return `
-Tu es un assistant IA pour une PME du secteur ${sector}.
+Tu es un assistant IA pour une PME (${sector}).
 Type de demande : ${requestType}. Urgence : ${urgency}.
 
-Ta mission : aider à pré-qualifier la demande client et proposer un pré-chiffrage indicatif.
+Objectif : pré-qualifier la demande client et proposer un pré-chiffrage INDICATIF utile au tri commercial.
+${sectorGuidelines(sector)}
 
 RÈGLES :
-- Réponds en FRANÇAIS.
-- Sois clair, structuré et actionnable.
-- Si des infos manquent, liste les questions à poser.
-- Le chiffrage est une FOURCHETTE indicative (pas un devis).
-- Donne un niveau de confiance : Faible / Moyen / Élevé.
+- Réponds en français, ton professionnel.
+- Pas de promesse excessive : indique clairement les incertitudes.
+- Donne une fourchette (€) et un niveau de confiance (Faible / Moyen / Élevé).
+- Si informations insuffisantes, propose une liste de questions.
+- Si possible, vise une estimation exploitable à ±10% (sinon explique pourquoi).
 
 FORMAT EXACT :
-1) Reformulation (2-3 phrases)
-2) Informations manquantes (liste de 3 à 7 questions)
-3) Pré-chiffrage (fourchette € + confiance)
-4) Contraintes / risques (3 puces)
-5) Prochaine étape recommandée (1 action)
+1) Reformulation de la demande (2-3 phrases)
+2) Questions à poser avant devis (5 à 10 questions)
+3) Pré-chiffrage indicatif : fourchette (€) + confiance + hypothèses (3 puces)
+4) Risques / aléas (3 à 6 puces)
+5) Prochaine étape recommandée (1 action claire)
 
 DEMANDE CLIENT :
 """${need}"""
@@ -36,12 +48,13 @@ DEMANDE CLIENT :
 }
 
 function setLoading(isLoading) {
+  // Tu utilises "hidden" Tailwind -> OK
   btn.classList.toggle("hidden", isLoading);
   loader.classList.toggle("hidden", !isLoading);
 }
 
 function escapeHtml(str) {
-  return str
+  return String(str)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
@@ -57,9 +70,19 @@ async function callAI(prompt) {
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
+    // on récupère le message friendly renvoyé par la function
     throw new Error(data?.error || `Erreur serveur (${res.status})`);
   }
+
   return data.output || "";
+}
+
+function normalizeOutput(text) {
+  // nettoyage léger : trims, doubles lignes, etc.
+  let t = String(text || "").trim();
+  t = t.replace(/\r\n/g, "\n");
+  t = t.replace(/\n{3,}/g, "\n\n");
+  return t;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -81,15 +104,20 @@ document.addEventListener("DOMContentLoaded", () => {
         need,
       });
 
-      const output = await callAI(prompt);
+      const raw = await callAI(prompt);
+      const output = normalizeOutput(raw);
 
       resultContent.innerHTML = `<pre class="whitespace-pre-wrap">${escapeHtml(output)}</pre>`;
       resultZone.classList.remove("hidden");
+
+      // scroll vers le résultat (effet “démo”)
+      resultZone.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch (e) {
       resultContent.innerHTML = `<p class="text-red-600 font-semibold">${escapeHtml(
         e.message || "Erreur inconnue"
       )}</p>`;
       resultZone.classList.remove("hidden");
+      resultZone.scrollIntoView({ behavior: "smooth", block: "start" });
     } finally {
       setLoading(false);
     }

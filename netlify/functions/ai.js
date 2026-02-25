@@ -31,7 +31,7 @@ export default async (req) => {
       });
     }
 
-    const model = process.env.HF_MODEL || "mistralai/Mistral-7B-Instruct-v0.3:hf-inference";
+    const model = process.env.HF_MODEL || "HuggingFaceH4/zephyr-7b-beta:hf-inference";
     const url = "https://router.huggingface.co/v1/chat/completions";
 
     const hfRes = await fetch(url, {

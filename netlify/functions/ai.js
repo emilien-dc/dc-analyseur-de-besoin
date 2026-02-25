@@ -43,7 +43,8 @@ export default async (req) => {
       body: JSON.stringify({
         model,
         messages: [{ role: "user", content: prompt }],
-        temperature: 0.2,
+        temperature: 0.1,
+        top_p: 0.9,
         max_tokens: 700,
       }),
     });

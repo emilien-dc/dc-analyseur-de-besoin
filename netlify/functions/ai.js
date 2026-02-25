@@ -1,5 +1,7 @@
 // netlify/functions/ai.js
-// Proxy serverless Netlify -> Hugging Face (router) with secret HF_TOKEN
+// Netlify Function proxy -> Hugging Face Router (OpenAI-compatible Chat Completions)
+// Secret: HF_TOKEN (Netlify env var)
+// Model: HF_MODEL (default: HuggingFaceTB/SmolLM3-3B:hf-inference)
 
 export default async (req) => {
   try {
@@ -19,10 +21,10 @@ export default async (req) => {
       return new Response(JSON.stringify({ error: "Missing prompt" }), { status: 400 });
     }
 
-    const model = process.env.HF_MODEL || "google/flan-t5-base";
+    // ✅ Model must be available via the provider used (hf-inference here)
+    const model = process.env.HF_MODEL || "HuggingFaceTB/SmolLM3-3B:hf-inference";
 
-    // ✅ New endpoint: Hugging Face router + hf-inference provider
-    const url = `https://router.huggingface.co/hf-inference/models/${encodeURIComponent(model)}`;
+    const url = "https://router.huggingface.co/v1/chat/completions";
 
     const hfRes = await fetch(url, {
       method: "POST",
@@ -30,13 +32,18 @@ export default async (req) => {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ inputs: prompt }),
+      body: JSON.stringify({
+        model,
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.2,
+        max_tokens: 450,
+      }),
     });
 
     const data = await hfRes.json().catch(() => ({}));
 
     if (!hfRes.ok) {
-      const msg = data?.error || `Hugging Face error (${hfRes.status})`;
+      const msg = data?.error?.message || data?.error || `Hugging Face error (${hfRes.status})`;
       return new Response(JSON.stringify({ error: msg, details: data }), {
         status: hfRes.status,
         headers: { "Content-Type": "application/json" },
@@ -44,8 +51,8 @@ export default async (req) => {
     }
 
     const output =
-      (Array.isArray(data) && data[0]?.generated_text) ||
-      data?.generated_text ||
+      data?.choices?.[0]?.message?.content ||
+      data?.choices?.[0]?.text ||
       JSON.stringify(data, null, 2);
 
     return new Response(JSON.stringify({ output }), {

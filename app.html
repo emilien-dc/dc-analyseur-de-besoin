@@ -187,7 +187,7 @@
     const clearBtn = document.getElementById('clearBtn');
     const copyBtn = document.getElementById('copyBtn');
     const needs = document.getElementById('needs');
-    const resultContent = document.getElementById('resultContent');
+    const resultContentEl = document.getElementById('resultContent');
 
     fillExampleBtn?.addEventListener('click', () => {
       document.getElementById('sector').value = 'BTP';
@@ -207,7 +207,7 @@ Demande : pré-chiffrage et questions à poser avant devis.`;
     });
 
     copyBtn?.addEventListener('click', async () => {
-      const text = resultContent?.innerText?.trim();
+      const text = resultContentEl?.innerText?.trim();
       if (!text) return;
       try {
         await navigator.clipboard.writeText(text);

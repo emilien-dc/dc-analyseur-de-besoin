@@ -50,18 +50,17 @@ export default async (req) => {
       });
     }
 
-      let output =
-      data?.choices?.[0]?.message?.content ||
-      data?.choices?.[0]?.text ||
-      JSON.stringify(data, null, 2);
-    
-    // Nettoyage des modèles qui renvoient <think>...</think>
-    output = String(output).replace(/<think>[\s\S]*?<\/think>\s*/g, "").trim();      
-
-    return new Response(JSON.stringify({ output }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    let output =
+    data?.choices?.[0]?.message?.content ||
+    data?.choices?.[0]?.text ||
+    JSON.stringify(data, null, 2);
+  
+  output = String(output).replace(/<think>[\s\S]*?<\/think>\s*/g, "").trim();
+  
+  return new Response(JSON.stringify({ output }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
   } catch (e) {
     return new Response(JSON.stringify({ error: e.message || "Server error" }), {
       status: 500,

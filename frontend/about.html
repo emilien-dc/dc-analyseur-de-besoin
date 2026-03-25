@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - Analyseur IA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: "#2C3E50",
+              secondary: "#E8DFC9",
+              accent: "#E67E22",
+              light: "#F4F4F4",
+              text: "#333333",
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-brand-light text-brand-text">
+
+  <!-- HEADER -->
+  <header class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-6">
+      <a href="index.html" class="flex items-center gap-4 min-w-0">
+        <img src="/images/logo.png" alt="Logo Analyseur IA" class="h-12 w-auto object-contain" />
+        <div class="min-w-0">
+          <div class="text-lg font-semibold text-brand-primary leading-tight">Analyseur IA</div>
+          <div class="text-sm text-gray-500 leading-tight">Pré-qualification & pré-chiffrage intelligent</div>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="index.html" class="text-brand-primary hover:text-brand-accent transition">Accueil</a>
+        <a href="app.html" class="text-brand-primary hover:text-brand-accent transition">Application</a>
+        <a href="about.html" class="text-brand-accent font-semibold">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- INTRO -->
+  <section class="bg-brand-primary">
+    <div class="max-w-7xl mx-auto px-6 py-20 text-center">
+      <p class="text-sm font-semibold uppercase tracking-wider text-brand-secondary mb-3">À propos</p>
+      <h1 class="text-4xl font-bold text-white mb-4">
+        Un démonstrateur IA orienté usage métier
+      </h1>
+      <p class="text-white/80 max-w-3xl mx-auto leading-relaxed">
+        Cette application illustre comment une interface web peut s’appuyer sur une API d’intelligence artificielle
+        pour assister la qualification de besoins, structurer les demandes clients
+        et préparer une première estimation exploitable.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="py-20">
+    <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-10 items-start">
+
+      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+        <h2 class="text-2xl font-bold text-brand-primary mb-6">Pourquoi cette démonstration ?</h2>
+
+        <div class="space-y-5 text-gray-600 leading-relaxed">
+          <p>
+            L’objectif est de montrer une application concrète de l’IA au service des entreprises :
+            gagner du temps, améliorer la qualité des réponses initiales et mieux orienter la suite du traitement.
+          </p>
+          <p>
+            Le résultat produit par l’outil reste une aide à la décision.
+            Il ne remplace ni une visite sur site, ni un devis formel, ni l’expertise d’un professionnel.
+          </p>
+          <p>
+            Cette approche est particulièrement pertinente pour des contextes BTP, industrie ou services,
+            où les demandes entrantes sont nombreuses et souvent incomplètes.
+          </p>
+        </div>
+
+        <div class="mt-8 grid sm:grid-cols-2 gap-4">
+          <div class="rounded-xl bg-brand-light p-4">
+            <div class="text-brand-accent text-xl mb-2">🏗️</div>
+            <h3 class="font-semibold text-brand-primary mb-1">BTP</h3>
+            <p class="text-sm text-gray-600">Pré-qualification de demandes travaux, rénovation, maintenance.</p>
+          </div>
+
+          <div class="rounded-xl bg-brand-light p-4">
+            <div class="text-brand-accent text-xl mb-2">🏭</div>
+            <h3 class="font-semibold text-brand-primary mb-1">Industrie</h3>
+            <p class="text-sm text-gray-600">Analyse d’interventions, contraintes techniques et sécurité.</p>
+          </div>
+
+          <div class="rounded-xl bg-brand-light p-4">
+            <div class="text-brand-accent text-xl mb-2">📦</div>
+            <h3 class="font-semibold text-brand-primary mb-1">Services</h3>
+            <p class="text-sm text-gray-600">Qualification de besoins, temps homme, dépendances et livrables.</p>
+          </div>
+
+          <div class="rounded-xl bg-brand-light p-4">
+            <div class="text-brand-accent text-xl mb-2">💬</div>
+            <h3 class="font-semibold text-brand-primary mb-1">Démo & conseil</h3>
+            <p class="text-sm text-gray-600">Support pour ateliers, démonstrations ou cadrage de projet.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+        <h2 class="text-2xl font-bold text-brand-primary mb-6">Contact</h2>
+
+        <form class="space-y-5">
+          <div>
+            <label class="block text-sm font-semibold text-brand-primary mb-2">Nom</label>
+            <input type="text"
+                   class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+                   placeholder="Votre nom" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-brand-primary mb-2">Email</label>
+            <input type="email"
+                   class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+                   placeholder="Votre email" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-brand-primary mb-2">Message</label>
+            <textarea rows="5"
+                      class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+                      placeholder="Décrivez votre besoin ou votre demande de démonstration"></textarea>
+          </div>
+
+          <button type="submit"
+                  class="inline-flex items-center justify-center rounded-lg bg-brand-accent px-6 py-3 text-white font-semibold shadow hover:opacity-90 transition">
+            Envoyer
+          </button>
+        </form>
+
+        <p class="mt-6 text-sm text-gray-500">
+            Nous vous recontacterons rapidement suite à votre demande.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="bg-white border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-6 text-center text-sm text-gray-500">
+      © 2026 DENAES CONSULTING
+    </div>
+  </footer>
+
+</body>
+</html>

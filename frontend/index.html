@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analyseur de besoin IA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: "#2C3E50",
+              secondary: "#E8DFC9",
+              accent: "#E67E22",
+              light: "#F4F4F4",
+              text: "#333333",
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-brand-light text-brand-text">
+
+  <!-- HEADER -->
+  <header class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-6">
+      <a href="index.html" class="flex items-center gap-4 min-w-0">
+        <img src="/images/logo.png" alt="Logo Analyseur IA" class="h-12 w-auto object-contain" />
+        <div class="min-w-0">
+          <div class="text-lg font-semibold text-brand-primary leading-tight">Analyseur IA</div>
+          <div class="text-sm text-gray-500 leading-tight">Pré-qualification & pré-chiffrage intelligent</div>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="index.html" class="text-brand-primary hover:text-brand-accent transition">Accueil</a>
+        <a href="app.html" class="text-brand-primary hover:text-brand-accent transition">Application</a>
+        <a href="about.html" class="text-brand-primary hover:text-brand-accent transition">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden bg-brand-primary">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute -top-16 -right-16 w-80 h-80 rounded-full bg-brand-secondary"></div>
+      <div class="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-white"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-6 py-24 md:py-32 grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="inline-flex items-center rounded-full bg-white/10 border border-white/20 px-4 py-1 text-sm text-brand-secondary mb-6">
+          Démonstrateur IA orienté métiers
+        </span>
+
+        <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
+          Accélérez la qualification de vos demandes clients
+        </h1>
+
+        <p class="text-lg text-white/80 leading-relaxed mb-8 max-w-2xl">
+          Un outil web assisté par intelligence artificielle pour analyser une demande,
+          identifier les informations manquantes, anticiper les risques
+          et proposer un pré-chiffrage indicatif structuré.
+        </p>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="app.html"
+             class="inline-flex items-center justify-center rounded-lg bg-brand-accent px-6 py-3 text-white font-semibold shadow hover:opacity-90 transition">
+            Tester l’outil
+          </a>
+
+          <a href="about.html"
+             class="inline-flex items-center justify-center rounded-lg border border-white/30 px-6 py-3 text-white font-semibold hover:bg-white/10 transition">
+            Nous contacter
+          </a>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 p-8">
+        <div class="mb-6">
+          <div class="text-sm uppercase tracking-wide text-gray-500 mb-2">Exemple de sortie</div>
+          <h2 class="text-2xl font-semibold text-brand-primary">Pré-analyse structurée</h2>
+        </div>
+
+        <div class="space-y-4 text-sm text-gray-700">
+          <div class="rounded-lg bg-brand-light p-4">
+            <strong class="text-brand-primary">1) Reformulation</strong>
+            <p class="mt-1">Synthèse rapide de la demande client et du contexte métier.</p>
+          </div>
+
+          <div class="rounded-lg bg-brand-light p-4">
+            <strong class="text-brand-primary">2) Questions à poser</strong>
+            <p class="mt-1">Liste claire des informations manquantes avant devis.</p>
+          </div>
+
+          <div class="rounded-lg bg-brand-light p-4">
+            <strong class="text-brand-primary">3) Pré-chiffrage indicatif</strong>
+            <p class="mt-1">Fourchette de prix, niveau de confiance et hypothèses retenues.</p>
+          </div>
+
+          <div class="rounded-lg bg-brand-light p-4">
+            <strong class="text-brand-primary">4) Risques / aléas</strong>
+            <p class="mt-1">Contraintes techniques, logistiques ou réglementaires.</p>
+          </div>
+
+          <div class="rounded-lg bg-brand-light p-4">
+            <strong class="text-brand-primary">5) Prochaine étape</strong>
+            <p class="mt-1">Action opérationnelle recommandée pour la suite.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="py-20">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="max-w-3xl mb-12">
+        <p class="text-sm font-semibold uppercase tracking-wider text-brand-accent mb-3">Pourquoi cet outil ?</p>
+        <h2 class="text-3xl font-bold text-brand-primary mb-4">
+          Un démonstrateur concret d’IA appliquée aux besoins terrain
+        </h2>
+        <p class="text-gray-600 leading-relaxed">
+          L’objectif n’est pas de remplacer l’expertise humaine, mais d’aider à gagner du temps,
+          structurer les demandes entrantes et fiabiliser les premières réponses commerciales.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+          <div class="text-brand-accent text-2xl mb-4">⚡</div>
+          <h3 class="text-xl font-semibold text-brand-primary mb-3">Gain de temps</h3>
+          <p class="text-gray-600">
+            Accélérez la qualification initiale des demandes sans mobiliser immédiatement un expert métier.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+          <div class="text-brand-accent text-2xl mb-4">📋</div>
+          <h3 class="text-xl font-semibold text-brand-primary mb-3">Réponse structurée</h3>
+          <p class="text-gray-600">
+            Obtenez une sortie exploitable : reformulation, questions, fourchette, risques et suite recommandée.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+          <div class="text-brand-accent text-2xl mb-4">🧠</div>
+          <h3 class="text-xl font-semibold text-brand-primary mb-3">IA intégrée</h3>
+          <p class="text-gray-600">
+            Une logique moderne combinant interface web, appel API sécurisé et traitement assisté par modèle IA.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="pb-20">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="rounded-3xl bg-white border border-gray-200 shadow-sm px-8 py-12 text-center">
+        <h3 class="text-3xl font-bold text-brand-primary mb-4">
+          Prêt à tester le démonstrateur ?
+        </h3>
+        <p class="text-gray-600 max-w-2xl mx-auto mb-8">
+          Lance une analyse à partir d’un besoin client réel ou d’un cas d’usage métier.
+        </p>
+        <a href="app.html"
+           class="inline-flex items-center justify-center rounded-lg bg-brand-accent px-6 py-3 text-white font-semibold shadow hover:opacity-90 transition">
+          Ouvrir l’application
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-white border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-6 text-center text-sm text-gray-500">
+      © 2026 DENAES CONSULTING
+    </div>
+  </footer>
+
+</body>
+</html>

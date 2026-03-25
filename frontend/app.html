@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application - Analyseur IA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: "#2C3E50",
+              secondary: "#E8DFC9",
+              accent: "#E67E22",
+              light: "#F4F4F4",
+              text: "#333333",
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="js/app.js" defer></script>
+</head>
+<body class="bg-brand-light text-brand-text">
+
+  <!-- HEADER -->
+  <header class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-6">
+      <a href="index.html" class="flex items-center gap-4 min-w-0">
+        <img src="images/logo.png" alt="Logo Analyseur IA" class="h-12 w-auto object-contain" />
+        <div class="min-w-0">
+          <div class="text-lg font-semibold text-brand-primary leading-tight">Analyseur IA</div>
+          <div class="text-sm text-gray-500 leading-tight">Pré-qualification & pré-chiffrage intelligent</div>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="index.html" class="text-brand-primary hover:text-brand-accent transition">Accueil</a>
+        <a href="app.html" class="text-brand-accent font-semibold">Application</a>
+        <a href="about.html" class="text-brand-primary hover:text-brand-accent transition">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO / INTRO -->
+  <section class="bg-brand-primary">
+    <div class="max-w-7xl mx-auto px-6 py-10 md:py-12">
+      <p class="text-sm font-semibold uppercase tracking-wider text-brand-secondary mb-3">
+        Application métier
+      </p>
+      <h1 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
+        Lancer une pré-analyse de demande client
+      </h1>
+      <p class="text-white/80 text-base md:text-lg leading-relaxed max-w-3xl">
+        Renseignez le contexte de la demande, puis obtenez une première analyse structurée :
+        questions à poser, pré-chiffrage indicatif, risques et prochaine étape.
+      </p>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <main class="py-16">
+    <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-8 items-start">
+
+      <!-- FORMULAIRE -->
+      <section class="lg:col-span-2 bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+        <div class="mb-8">
+          <p class="text-sm font-semibold uppercase tracking-wider text-brand-accent mb-2">
+            Saisie
+          </p>
+          <h2 class="text-2xl font-bold text-brand-primary mb-3">
+            Décrire la demande client
+          </h2>
+          <p class="text-gray-600">
+            Décrivez la demande le plus précisément possible pour obtenir une analyse exploitable.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-5 mb-6">
+          <div>
+            <label for="sector" class="block text-sm font-semibold text-brand-primary mb-2">Secteur</label>
+            <select id="sector"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-brand-secondary">
+              <option value="BTP" selected>BTP</option>
+              <option value="Industrie">Industrie</option>
+              <option value="Services">Services</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="requestType" class="block text-sm font-semibold text-brand-primary mb-2">Type de demande</label>
+            <select id="requestType"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-brand-secondary">
+              <option value="devis" selected>Devis</option>
+              <option value="installation">Installation</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="dépannage">Dépannage</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="urgency" class="block text-sm font-semibold text-brand-primary mb-2">Urgence</label>
+            <select id="urgency"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-brand-secondary">
+              <option value="faible">Faible</option>
+              <option value="moyenne" selected>Moyenne</option>
+              <option value="forte">Forte</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label for="needs" class="block text-sm font-semibold text-brand-primary mb-2">
+            Description du besoin
+          </label>
+          <textarea id="needs"
+                    rows="10"
+                    class="w-full rounded-xl border border-gray-300 px-4 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+                    placeholder="Exemple : Travaux sur bief : refaire les bords (pierre et ciment) pour régulariser les côtés et rendre étanche le fond. Le bief fait 1m de large et 15m de long."></textarea>
+        </div>
+
+        <div class="flex flex-wrap gap-3 items-center">
+          <button id="analyzeBtn"
+                  class="inline-flex items-center justify-center rounded-lg bg-brand-accent px-6 py-3 text-white font-semibold shadow hover:opacity-90 transition">
+            Lancer l’analyse
+          </button>
+
+          <div id="loader"
+               class="hidden inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600">
+            <svg class="animate-spin h-4 w-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            Analyse en cours…
+          </div>
+
+          <button id="fillExampleBtn"
+                  type="button"
+                  class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-brand-primary font-semibold hover:bg-gray-50 transition">
+            Exemple
+          </button>
+
+          <button id="clearBtn"
+                  type="button"
+                  class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-brand-primary font-semibold hover:bg-gray-50 transition">
+            Effacer
+          </button>
+        </div>
+      </section>
+
+      <!-- SIDEBAR -->
+      <aside class="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+        <p class="text-sm font-semibold uppercase tracking-wider text-brand-accent mb-2">
+          Bonnes pratiques
+        </p>
+        <h3 class="text-xl font-bold text-brand-primary mb-5">
+          Conseils de saisie
+        </h3>
+
+        <div class="space-y-4 text-sm text-gray-600">
+          <p>Précisez si possible :</p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li>dimensions, quantités, surfaces</li>
+            <li>état existant ou désordres constatés</li>
+            <li>localisation ou contraintes d’accès</li>
+            <li>délais souhaités</li>
+            <li>photos, plans ou contexte technique</li>
+          </ul>
+        </div>
+
+        <div class="mt-8 rounded-xl bg-brand-light p-5">
+          <h4 class="font-semibold text-brand-primary mb-2">Important</h4>
+          <p class="text-sm text-gray-600">
+            Le résultat généré constitue une aide à la décision interne.
+            Il ne remplace ni l’expertise métier, ni une validation technique, ni un devis contractuel.
+          </p>
+        </div>
+      </aside>
+
+      <!-- RESULTAT -->
+      <section id="resultZone" class="lg:col-span-3 hidden bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+        <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-wider text-brand-accent mb-2">
+              Résultat
+            </p>
+            <h2 class="text-2xl font-bold text-brand-primary">
+              Analyse générée
+            </h2>
+          </div>
+
+          <button id="copyBtn"
+                  type="button"
+                  class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3 text-brand-primary font-semibold hover:bg-gray-50 transition">
+            Copier
+          </button>
+        </div>
+
+        <div id="resultContent"
+             class="rounded-xl bg-brand-light border border-gray-200 p-6 text-sm leading-relaxed text-gray-800 min-h-[140px]">
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 py-6 text-center text-sm text-gray-500">
+      © 2026 DENAES CONSULTING
+    </div>
+  </footer>
+
+  <!-- UI helpers uniquement -->
+  <script>
+    const fillExampleBtnEl = document.getElementById('fillExampleBtn');
+    const clearBtnEl = document.getElementById('clearBtn');
+    const copyBtnEl = document.getElementById('copyBtn');
+    const needsEl = document.getElementById('needs');
+    const resultContentEl = document.getElementById('resultContent');
+
+    fillExampleBtnEl?.addEventListener('click', () => {
+      document.getElementById('sector').value = 'BTP';
+      document.getElementById('requestType').value = 'devis';
+      document.getElementById('urgency').value = 'moyenne';
+
+      needsEl.value =
+`Travaux sur bief : refaire les bords (pierre et ciment) pour régulariser les côtés et rendre étanche le fond. Le bief fait 1m de large et 15m de long.`;
+    });
+
+    clearBtnEl?.addEventListener('click', () => {
+      needsEl.value = '';
+    });
+
+    copyBtnEl?.addEventListener('click', async () => {
+      const text = resultContentEl?.innerText?.trim();
+      if (!text) return;
+
+      try {
+        await navigator.clipboard.writeText(text);
+        copyBtnEl.textContent = "Copié ✅";
+        setTimeout(() => {
+          copyBtnEl.textContent = "Copier";
+        }, 1200);
+      } catch {
+        alert("Copie impossible.");
+      }
+    });
+  </script>
+
+</body>
+</html>
